@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
+  FlatList,
 } from "react-native";
 import History from "./components/History";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,25 +19,57 @@ class App extends React.Component {
       jobsCount: 0,
       isAddJobVisible: false,
       textInputJobs: "",
-      jobs:[]
+      jobs: [],
     };
   }
 
   showAddJob = () => {
-    this.setState({isAddJobVisible: true})
-  }
+    this.setState({ isAddJobVisible: true });
+  };
   cancelAddJob = () => {
-    this.setState({isAddJobVisible: false})
-  }
-  addJobText = job => {
-   this.setState((state, props)=> ({
-     jobs:[...state.jobs, job],
-     jobCount: state.jobCount +1
-   }), () => {
-     console.log(this.state.jobs)
-   })
-  }
+    this.setState({ isAddJobVisible: false });
+  };
+  addJobText = (job) => {
+    this.setState(
+      (state, props) => ({
+        jobs: [...state.jobs, job],
+        jobsCount: state.jobsCount + 1,
+      }),
+      () => {
+        console.log(this.state.jobs);
+      }
+    );
+  };
 
+  markAsDone = (selectedJob, index) => {
+    let newJob = this.state.jobs.filter((job) => job !== selectedJob);
+
+    this.setState((prevState) => ({
+      jobs: newJob,
+      jobsCount: prevState.jobsCount - 1,
+    }));
+  };
+
+  renderItem = (item, index) => (
+    <View style={{ height: 50, flexDirection: "row" }}>
+      <View style={{ flex: 1, justifyContent: "center", paddingLeft: 5 }}>
+        <Text>{item}</Text>
+      </View>
+      <TouchableOpacity onPress={()=> this.markAsDone(item, index)}>
+        <View
+          style={{
+            width: 100,
+            height: 50,
+            backgroundColor: "blue",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text style={{ color: "white" }}>Submit</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
 
   render() {
     return (
@@ -59,9 +92,11 @@ class App extends React.Component {
               <TextInput
                 style={{ flex: 1, backgroundColor: "#d3d3d3", paddingLeft: 5 }}
                 placeholder="Enter Job"
-                onChangeText={(text)=> this.setState({textInputJobs: text})}
+                onChangeText={(text) => this.setState({ textInputJobs: text })}
               />
-              <TouchableOpacity onPress={()=> this.addJobText(this.state.textInputJobs)}>
+              <TouchableOpacity
+                onPress={() => this.addJobText(this.state.textInputJobs)}
+              >
                 <View
                   style={{
                     width: 50,
@@ -89,6 +124,18 @@ class App extends React.Component {
               </TouchableOpacity>
             </View>
           )}
+
+          <FlatList
+            data={this.state.jobs}
+            renderItem={({ item }, index) => this.renderItem(item, index)}
+            keyExtractor={(item, index) => index.toString()}
+            ListEmptyComponent={
+              <View style={{ marginTop: 50, alignItems: "center" }}>
+                <Text style={{ fontWeight: "bold" }}>No Jobs Posted</Text>
+              </View>
+            }
+          />
+
           <TouchableOpacity
             style={{ position: "absolute", bottom: 20, right: 20 }}
             onPress={this.showAddJob}
@@ -114,7 +161,7 @@ class App extends React.Component {
             borderBottomColor: "#7b48b4",
           }}
         >
-          <History title='total' count={this.state.jobsCount}/>
+          <History count={this.state.jobsCount} />
         </View>
         <SafeAreaView />
       </View>
