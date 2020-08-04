@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
 import {
   StyleSheet,
@@ -9,173 +8,59 @@ import {
   TextInput,
   FlatList,
 } from "react-native";
-import History from "./components/History";
-import { Ionicons } from "@expo/vector-icons";
+import WelcomeScreen from './screens/AppSwitchNavigator/WelcomeScreen'
+import HomeScreen from './screens/HomeScreen'
+import SignUpScreen from './screens/SignupScreen'
+import SettingsScreen from './screens/SettingsScreen'
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      jobsCount: 0,
-      isAddJobVisible: false,
-      textInputJobs: "",
-      jobs: [],
-    };
-  }
 
-  showAddJob = () => {
-    this.setState({ isAddJobVisible: true });
-  };
-  cancelAddJob = () => {
-    this.setState({ isAddJobVisible: false });
-  };
-  addJobText = (job) => {
-    this.setState(
-      (state, props) => ({
-        jobs: [...state.jobs, job],
-        jobsCount: state.jobsCount + 1,
-      }),
-      () => {
-        console.log(this.state.jobs);
-      }
-    );
-  };
+import {createAppContainer, createSwitchNavigator, createStackNavigator, createDrawerNavigator} from 'react-navigation'
+import {Ionicons} from '@expo/vector-icons'
+import CustomDraw from "./screens/DrawNavigator/CustomDrawComponent";
 
-  markAsDone = (selectedJob, index) => {
-    let newJob = this.state.jobs.filter((job) => job !== selectedJob);
+/**
+ * AppSwitchNav
+ *  WelcomeScreen
+ *   -signup
+ *  HomeScreen
+ */
 
-    this.setState((prevState) => ({
-      jobs: newJob,
-      jobsCount: prevState.jobsCount - 1,
-    }));
-  };
+const App = () =><AppContainer/>
 
-  renderItem = (item, index) => (
-    <View style={{ height: 50, flexDirection: "row" }}>
-      <View style={{ flex: 1, justifyContent: "center", paddingLeft: 5 }}>
-        <Text>{item}</Text>
-      </View>
-      <TouchableOpacity onPress={()=> this.markAsDone(item, index)}>
-        <View
-          style={{
-            width: 100,
-            height: 50,
-            backgroundColor: "blue",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text style={{ color: "white" }}>Submit</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-
-  render() {
-    return (
-      <View style={{ flex: 1 }}>
-        <SafeAreaView />
-        <View
-          style={{
-            height: 70,
-            borderBottomWidth: 0.5,
-            borderBottomColor: "#7b48b4",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text style={{ fontSize: 30 }}>Geo Lure</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          {this.state.isAddJobVisible && (
-            <View style={{ height: 50, flexDirection: "row" }}>
-              <TextInput
-                style={{ flex: 1, backgroundColor: "#d3d3d3", paddingLeft: 5 }}
-                placeholder="Enter Job"
-                onChangeText={(text) => this.setState({ textInputJobs: text })}
-              />
-              <TouchableOpacity
-                onPress={() => this.addJobText(this.state.textInputJobs)}
-              >
-                <View
-                  style={{
-                    width: 50,
-                    height: 50,
-                    backgroundColor: "#19ffa8",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Ionicons name="ios-checkmark" color="white" size={40} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.cancelAddJob}>
-                <View
-                  style={{
-                    width: 50,
-                    height: 50,
-                    backgroundColor: "red",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Ionicons name="ios-close" color="white" size={40} />
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          <FlatList
-            data={this.state.jobs}
-            renderItem={({ item }, index) => this.renderItem(item, index)}
-            keyExtractor={(item, index) => index.toString()}
-            ListEmptyComponent={
-              <View style={{ marginTop: 50, alignItems: "center" }}>
-                <Text style={{ fontWeight: "bold" }}>No Jobs Posted</Text>
-              </View>
-            }
-          />
-
-          <TouchableOpacity
-            style={{ position: "absolute", bottom: 20, right: 20 }}
-            onPress={this.showAddJob}
-          >
-            <View
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                backgroundColor: "#19ffa8",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 30 }}>+</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            height: 70,
-            borderTopWidth: 0.5,
-            borderBottomColor: "#7b48b4",
-          }}
-        >
-          <History count={this.state.jobsCount} />
-        </View>
-        <SafeAreaView />
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+const loginStackNavigator = createStackNavigator({
+  WelcomeScreen: {
+    screen: WelcomeScreen,
+    navigationOptions: {
+      header: null
+    }
   },
-});
+  SignUpScreen
+})
+
+const AppDrawnavigator = createDrawerNavigator({
+  HomeScreen: {
+    screen: HomeScreen,
+    navigationOptions: {
+    title: "Home",
+    drawerIcon: ()=> <Ionicons name="ios-home" size={24}/>
+    }
+  },
+  SettingsScreen: {
+    screen: SettingsScreen,
+    navigationOptions: {
+      title: "Settings",
+      drawerIcon: () => <Ionicons name="ios-settings" size={24}/>
+    } 
+  }
+}, {
+  contentComponent: CustomDraw
+})
+
+const AppSwitchNavigator = createSwitchNavigator({
+  loginStackNavigator,
+  AppDrawnavigator
+})
+
+const AppContainer = createAppContainer(AppSwitchNavigator)
 
 export default App;
