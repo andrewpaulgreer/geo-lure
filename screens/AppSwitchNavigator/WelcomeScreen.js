@@ -15,14 +15,14 @@ import { Ionicons } from "@expo/vector-icons";
 class WelcomeScreen extends React.Component {
  render(){
      return (
-         <View style={{flex: 1, backgroundColor:"#bababa"}}>
+         <View style={{flex: 1, backgroundColor:"#3e4544"}}>
              <View style={{flex: 1, justifyContent: "center", alignItems:"center"}}>
                 <Text style={styles.logo}>GeoLure</Text>
              </View>
              <View style={{flex: 1}}>
              <View style={{flex: 1, alignItems:"center"}}>
              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('HomeScreen')}
+                onPress={() => this.props.navigation.navigate('LoginScreen')}
               >
                 <View
                   style={{
@@ -37,25 +37,6 @@ class WelcomeScreen extends React.Component {
                   }}
                 >
                   <Text style={styles.login}>Login</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('SignUpScreen')}
-              >
-                <View
-                  style={{
-                    width: 350,
-                    height: 100,
-                    backgroundColor: "transparent",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: 30,
-                    borderColor: "#00a7ff",
-                    borderWidth: 3,
-                    borderRadius: 180,
-                  }}
-                >
-                   <Text style={styles.signup}>Sign Up</Text>
                 </View>
               </TouchableOpacity>
               </View>

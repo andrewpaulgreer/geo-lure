@@ -7,29 +7,31 @@ import {
   TextInput,
   FlatList,
 } from "react-native";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 
 class SettingsScreen extends React.Component {
+    signOut = async() => {
+        try{
+            await firebase.auth().signOut()
+            this.props.navigation.navigate('WelcomeScreen')
+        }catch(error)
+        {
+            alert('Unable to sign out right now')
+        }
+    }
+
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#bababa" }}>
+      <View style={{ flex: 1, backgroundColor: "#3e4544" }}>
            <View style={{flex: 1, alignItems:"center", justifyContent: "center"}}>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("WelcomeScreen")}
+          onPress={this.signOut}
         >
           <View
-            style={{
-              width: 350,
-              height: 100,
-              backgroundColor: "transparent",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 30,
-              borderColor: "#00a7ff",
-              borderWidth: 3,
-              borderRadius: 180,
-            }}
+            style={styles.settings}
           >
-            <Text style={styles.signup}>Sign Out</Text>
+            <Text style={styles.text}>Sign Out</Text>
           </View>
         </TouchableOpacity>
         </View>
@@ -39,21 +41,23 @@ class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  logo: {
+
+  text: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "white",
+  },
+  settings: {
+    width: 350,
+    height: 100,
+    backgroundColor: "transparent",
+    alignItems: "center",
     justifyContent: "center",
-    fontSize: 40,
-    color: "#00a7ff",
-  },
-  login: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#19ffa8",
-  },
-  signup: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#00a7ff",
-  },
+    marginTop: 30,
+    borderColor: "#00a7ff",
+    borderWidth: 3,
+    borderRadius: 180,
+  }
 });
 
 export default SettingsScreen;
