@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import 'firebase/database'
 
 class LoginScreen extends React.Component {
   constructor() {
@@ -29,6 +30,8 @@ class LoginScreen extends React.Component {
         const response = await firebase.auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         if(response){
+
+
           this.setState({isLoading: false})
           this.props.navigation.navigate('LoadingScreen')
         } 
@@ -59,7 +62,13 @@ class LoginScreen extends React.Component {
        .createUserWithEmailAndPassword(this.state.email, this.state.password) 
        if(response){
         this.setState({isLoading: false})
-        this.onSignIn(this.state.email,this.state.password)
+
+        //sign in user in db
+        const user = await firebase.database().ref('users/').child(response.user.uid)
+        .set({email:response.user.email,uid:response.user.uid})
+
+        this.props.navigation.navigate('LoadingScreen')
+        // this.onSignIn(this.state.email,this.state.password)
         //navigate
       } 
       }catch(error)

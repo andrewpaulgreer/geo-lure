@@ -2,16 +2,30 @@ import React from 'react'
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 
 
-const History = ({count}) => {
+const History = ({count, posted}) => {
 return (
+  <>
+  <View style={{flexDirection: "row"}}>
     <View style={{
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
+        marginTop: 10,
       }}>
-        <Text style={{fontSize: 20}}>Jobs To Post:</Text>
-    <Text>{count}</Text>
+        <Text style={{fontSize: 20, color:"white"}}>Jobs To Post:</Text>
+    <Text style={{color:"white"}}>{count}</Text>
       </View>
+        <View style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 10
+        }}>
+          <Text style={{fontSize: 20, color:"white"}}>Jobs Posted</Text>
+      <Text style={{color:"white"}}>{posted}</Text>
+        </View>
+        </View>
+      </>
 )
 
 
