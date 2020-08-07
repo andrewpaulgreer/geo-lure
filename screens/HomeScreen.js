@@ -1,4 +1,7 @@
 import { StatusBar } from "expo-status-bar";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
 import React, { Component } from "react";
 import {
   StyleSheet,
@@ -8,13 +11,16 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
-
+  ActivityIndicator,
 } from "react-native";
-import History from "../components/History";
-import ListItem from '../components/ListItem'
+import Swipeout from "react-native-swipeout";
+import ListItem from "../components/ListItem";
 import { Ionicons } from "@expo/vector-icons";
 import * as firebase from "firebase/app";
+import "firebase/storage"
 import { snapshotToArray } from "../helpers/firebaseHelpers";
+import * as Animatable from "react-native-animatable";
+import * as ImageHelpers from '../helpers/ImageHelpers'
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -24,10 +30,11 @@ class HomeScreen extends React.Component {
       jobsCount: 0,
       jobsDoneCount: 0,
       isAddJobVisible: false,
-      textInputJobs: "",
+      textInputData: "",
       jobs: [],
       jobsDone: [],
     };
+    this.textInputRef = null;
   }
 
   componentDidMount = async () => {
@@ -49,9 +56,12 @@ class HomeScreen extends React.Component {
 
     this.setState({
       currentUser: currentUserData.val(),
-      jobs: jobsArray.filter((job) => !job.completed),
-      jobsDone: jobsArray.filter((job) => job.completed),
     });
+
+    this.props.loadJobs(jobsArray.reverse());
+    console.log(this.props.jobs);
+
+    this.props.toggleIsLoading(false);
   };
 
   showAddJob = () => {
@@ -60,15 +70,17 @@ class HomeScreen extends React.Component {
   cancelAddJob = () => {
     this.setState({ isAddJobVisible: false });
   };
-  addJobText = async (job) => {
+  addJob = async (job) => {
+    this.setState({ textInputData: "" });
+    this.textInputRef.setNativeProps({ text: "" });
     try {
+      this.props.toggleIsLoading(true);
       const snapshot = await firebase
         .database()
         .ref("jobs")
         .child(this.state.currentUser.uid)
         .orderByChild("name")
-        .equalTo(job)
-        .once("value");
+        .equalTo(job);
 
       const key = await firebase
         .database()
@@ -83,17 +95,11 @@ class HomeScreen extends React.Component {
         .child(key)
         .set({ name: job, completed: false });
 
-      this.setState(
-        (state, props) => ({
-          jobs: [...state.jobs, { name: job, completed: false }],
-          // jobsCount: state.jobsCount + 1,
-        }),
-        () => {
-          console.log(this.state.jobs);
-        }
-      );
+      this.props.addJob({ name: job, completed: false, key: key });
+      this.props.toggleIsLoading(false);
     } catch (error) {
       console.log(error);
+      this.props.toggleIsLoading(false);
     }
   };
 
@@ -118,32 +124,146 @@ class HomeScreen extends React.Component {
         // jobsCount: prevState.jobsCount - 1,
         // jobsDoneCount: prevState.jobsDoneCount + 1
       }));
+      this.props.markAsDone(selectedJob);
+      this.props.toggleIsLoading(false);
     } catch (errors) {
       console.log(error);
+      this.props.toggleIsLoading(false);
     }
   };
 
-  renderItem = (item, index) => (
-   <ListItem item={item}>
-     {item.completed ? (
-      <Ionicons name="ios-checkmark" color="green" size={50} />
-    ) : (
-      <TouchableOpacity onPress={() => this.markAsDone(item, index)}>
-        <View
-          style={styles.completedBtn}
-        >
-          <Text style={{ color: "#00a7ff", fontSize:20 }}>Complete</Text>
-        </View>
-      </TouchableOpacity>
-    )}
-   </ListItem>
-  );
+  deleteJob = async (selectedJob, index) => {
+    try {
+      this.props.toggleIsLoading(true);
+      await firebase
+        .database()
+        .ref("jobs")
+        .child(this.state.currentUser.uid)
+        .child(selectedJob.key)
+        .remove();
+
+      this.props.deleteJob(selectedJob);
+      this.props.toggleIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      this.props.toggleIsLoading(false);
+    }
+  };
+
+  uploadImage = async(image, selectedJob) => {
+    const ref = firebase.storage().ref().child(this.state.currentUser.uid).child(selectedJob.key)
+    try{
+      const blob = await ImageHelpers.prepareBlob(image.uri)
+      const snapshot = await ref.put(blob)
+
+      let downloadUrl = await ref.getDownloadURL()
+
+      await firebase.database().ref('jobs').child(this.state.currentUser.uid).child(selectedJob.key).update({image:downloadUrl})
+
+      blob.close()
+
+      return downloadUrl
+    } catch(error)
+    {
+      console.log(error)
+    }
+  }
+
+  openImageLibrary = async(selectedJob) => {
+    const result = await ImageHelpers.openImageLibrary();
+    if(result){
+      this.props.toggleIsLoading(true)
+      const downloadUrl = await this.uploadImage(result, selectedJob)
+      this.props.updateJobImage({...selectedJob, uri: downloadUrl})
+      this.props.toggleIsLoading(false)
+
+    }
+  }
+
+  openCamera = async(selectedJob) => {
+    const result = await ImageHelpers.openCamera();
+    if(result){
+      this.props.toggleIsLoading(true)
+      const downloadUrl = await this.uploadImage(result, selectedJob)
+      this.props.updateJobImage({...selectedJob, uri: downloadUrl})
+      this.props.toggleIsLoading(false)
+    }
+  }
+
+  addImage = (selectedJob) => {
+    const options = ["select from photos", "open camerea", "cancel"];
+    const cancelButtonIndex = 2;
+
+    this.props.showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      (buttonIndex) => {
+        if (buttonIndex == 0) {
+          this.openImageLibrary(selectedJob)
+        } else if (buttonIndex == 1) {
+          this.openCamera(selectedJob)
+        }
+      }
+    );
+  };
+
+  renderItem = (item, index) => {
+    let swipeoutButtons = [
+      {
+        text: "delete",
+        component: (
+          <View>
+            <Ionicons name="ios-trash" size={24} color="white" />
+          </View>
+        ),
+        backgroundColor: "red",
+        onPress: () => this.deleteJob(item, index),
+      },
+    ];
+
+    if (!item.completed) {
+      swipeoutButtons.unshift({
+        text: "Mark Done",
+        component: (
+          <View>
+            <Text style={{ color: "black" }}>Mark as Done</Text>
+          </View>
+        ),
+        backgroundColor: "#19ffa8",
+        onPress: () => this.markAsDone(item, index),
+      });
+    }
+
+    return (
+      <Swipeout
+        autoClose={true}
+        style={{ marginHorizontal: 5, marginVertical: 5 }}
+        backgroundColor="#3e4544"
+        right={swipeoutButtons}
+      >
+        <ListItem editable={true} marginVertical={0} item={item} onPress={() => this.addImage(item)} onPressTwo={() => this.addImage(item)}>
+          
+          {item.completed ? (
+            <Ionicons name="ios-checkmark" color="green" size={50} />
+          ) : (
+            <TouchableOpacity onPress={() => this.markAsDone(item, index)}>
+              <View style={styles.postBtn}>
+                <Text style={{ color: "#00a7ff", fontSize: 20 }}>Post Job</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        </ListItem>
+      </Swipeout>
+    );
+  };
 
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#3e4544" }}>
         <SafeAreaView />
-        <View
+        {/* <View
           style={{
             height: 70,
             borderBottomWidth: 0.5,
@@ -153,86 +273,75 @@ class HomeScreen extends React.Component {
           }}
         >
           <Text style={{ fontSize: 30, color: "#00a7ff" }}>Geo Lure</Text>
-        </View>
+        </View> */}
         <View style={{ flex: 1 }}>
-          <View style={{ height: 50, flexDirection: "row", margin: 5 }}>
-          <TextInput
-                style={{ flex: 1, backgroundColor: "transparent", paddingLeft: 5, borderColor:"#d3d3d3", borderBottomWidth: 2, fontSize: 20}}
-                placeholder="Enter Job"
-                placeholderTextColor="#d3d3d3"
-                onChangeText={(text) => this.setState({ textInputJobs: text })}
-              />
-          </View>
-          {/* {this.state.isAddJobVisible && (
-            <View style={{ height: 50, flexDirection: "row" }}>
-              <TextInput
-                style={{ flex: 1, backgroundColor: "#d3d3d3", paddingLeft: 5 }}
-                placeholder="Enter Job"
-                onChangeText={(text) => this.setState({ textInputJobs: text })}
-              />
-              <TouchableOpacity
-                onPress={() => this.addJobText(this.state.textInputJobs)}
-              >
-                <View
-                  style={{
-                    width: 50,
-                    height: 50,
-                    backgroundColor: "#19ffa8",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Ionicons name="ios-checkmark" color="white" size={40} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.cancelAddJob}>
-                <View
-                  style={{
-                    width: 50,
-                    height: 50,
-                    backgroundColor: "red",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Ionicons name="ios-close" color="white" size={40} />
-                </View>
-              </TouchableOpacity>
+          {this.props.jobs.isLoadingJobs && (
+            <View
+              style={{
+                ...StyleSheet.absoluteFill,
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 1000,
+                elevation: 10000,
+              }}
+            >
+              <ActivityIndicator size="large" color="#00a7ff" />
             </View>
-          )} */}
+          )}
+          <View style={{ height: 50, flexDirection: "row", margin: 5 }}>
+            <TextInput
+              style={styles.jobInput}
+              placeholder="Enter Job"
+              placeholderTextColor="#d3d3d3"
+              onChangeText={(text) => this.setState({ textInputData: text })}
+              ref={(component) => {
+                this.textInputRef = component;
+              }}
+            />
+          </View>
 
           <FlatList
-            data={this.state.jobs}
+            data={this.props.jobs.jobs}
             renderItem={({ item }, index) => this.renderItem(item, index)}
             keyExtractor={(item, index) => index.toString()}
             ListEmptyComponent={
-              <View style={{ marginTop: 50, alignItems: "center" }}>
-                <Text style={{ fontWeight: "bold" }}>No Jobs Added</Text>
-              </View>
+              !this.props.jobs.isLoadingJobs && (
+                <View style={{ marginTop: 50, alignItems: "center" }}>
+                  <Text style={{ fontWeight: "bold" }}>
+                    No Jobs Currently In Process
+                  </Text>
+                </View>
+              )
             }
           />
-          {this.state.textInputJobs.length > 0?(
 
-          <TouchableOpacity
-            style={{ position: "absolute", bottom: 20, right: 20 }}
-            onPress={this.showAddJob}
+          <Animatable.View
+            animation={
+              this.state.textInputData.length > 0
+                ? "bounceInRight"
+                : "bounceOutRight"
+            }
           >
-            <View
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50,
-                backgroundColor: "#19ffa8",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+            <TouchableOpacity
+              style={{ position: "absolute", bottom: 100, right: 100 }}
+              onPress={() => this.addJob(this.state.textInputData)}
             >
-              <Text style={{ color: "white", fontSize: 30 }}>+</Text>
-            </View>
-          </TouchableOpacity>
-          ):null}
+              <View
+                style={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 100,
+                  backgroundColor: "#19ffa8",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ color: "white", fontSize: 75 }}>+</Text>
+              </View>
+            </TouchableOpacity>
+          </Animatable.View>
         </View>
-        <View
+        {/* <View
           style={{
             height: 70,
             borderTopWidth: 0.5,
@@ -243,12 +352,43 @@ class HomeScreen extends React.Component {
             count={this.state.jobs.length}
             posted={this.state.jobsDone.length}
           />
-        </View>
+        </View> */}
         <SafeAreaView />
       </View>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    jobs: state.jobs,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadJobs: (jobs) =>
+      dispatch({
+        type: "LOAD_JOBS",
+        payload: jobs,
+      }),
+    markAsDone: (job) => dispatch({ type: "MARK_AS_DONE", payload: job }),
+    addJob: (job) => dispatch({ type: "ADD_JOB", payload: job }),
+    markJobAsNotDone: (job) =>
+      dispatch({ type: "MARK_JOB_AS_NOT_DONE", payload: job }),
+    toggleIsLoading: (bool) =>
+      dispatch({ type: "TOGGLE_IS_LOADING", payload: bool }),
+    deleteJob: (job) => dispatch({ type: "DELETE_JOB", payload: job }),
+    updateJobImage: job => dispatch({type: 'UPDATE_IMAGE', payload: job})
+  };
+};
+
+const wrapper = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  connectActionSheet
+);
+
+export default wrapper(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -257,19 +397,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  completedBtn: {
-    width: 400,
+  postBtn: {
+    width: 350,
     height: 60,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
-    marginBottom:10,
+    marginBottom: 10,
     borderRadius: 20,
     borderColor: "#00a7ff",
-    borderWidth: 3
-  }
-  
+    borderWidth: 3,
+  },
+  jobInput: {
+    flex: 1,
+    backgroundColor: "transparent",
+    paddingLeft: 20,
+    borderColor: "#d3d3d3",
+    borderWidth: 2,
+    borderRadius: 20,
+    fontSize: 20,
+    color: "#d3d3d3",
+    margin: 3,
+    height: 50,
+  },
 });
-
-export default HomeScreen;

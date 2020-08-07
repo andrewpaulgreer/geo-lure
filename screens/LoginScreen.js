@@ -45,11 +45,16 @@ class LoginScreen extends React.Component {
             break;
             case 'auth/invalid-email':
             alert('Please enter an email address')
+            break;
+            case 'auth/wrong-password':
+              alert('I think you have the wrong password')
          }
        }
+
     } else {
-      alert('Please sign in with email and password')
+      alert('Seems to be the wrong password or email there..')
     }
+  
   };
 
   onSignUp = async() => {
@@ -65,7 +70,7 @@ class LoginScreen extends React.Component {
 
         //sign in user in db
         const user = await firebase.database().ref('users/').child(response.user.uid)
-        .set({email:response.user.email,uid:response.user.uid})
+        .set({email:response.user.email, uid:response.user.uid})
 
         this.props.navigation.navigate('LoadingScreen')
         // this.onSignIn(this.state.email,this.state.password)

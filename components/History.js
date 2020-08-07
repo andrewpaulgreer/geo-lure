@@ -13,7 +13,7 @@ return (
         marginTop: 10,
       }}>
         <Text style={{fontSize: 20, color:"white"}}>Jobs To Post:</Text>
-    <Text style={{color:"white"}}>{count}</Text>
+    <Text style={{color:"white", fontSize: 20}}>{count}</Text>
       </View>
         <View style={{
           flex: 1,
@@ -22,7 +22,7 @@ return (
           marginTop: 10
         }}>
           <Text style={{fontSize: 20, color:"white"}}>Jobs Posted</Text>
-      <Text style={{color:"white"}}>{posted}</Text>
+      <Text style={{color:"white", fontSize: 20}}>{posted}</Text>
         </View>
         </View>
       </>
