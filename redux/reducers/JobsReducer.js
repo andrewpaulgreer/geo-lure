@@ -5,6 +5,7 @@ const initialState = {
   jobsDone: [],
   isloadingJobs: true,
   image: null,
+  location: {}
 };
 
 const jobs = (state = initialState, action) => {
@@ -73,6 +74,7 @@ const jobs = (state = initialState, action) => {
                 return job
             }),
         }
+
     default:
       return state;
   }

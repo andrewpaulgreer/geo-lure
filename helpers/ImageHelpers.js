@@ -12,8 +12,14 @@ export const openImageLibrary = async () => {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [1,1],
-            base64: true
+            base64: true,
+            allowsMultipleSelection: true
         })
+       
+            // console.log('response: ', response);
+            // console.log('response latitude: ', response.latitude);
+            // console.log('response longitude: ', response.longitude);
+
         return !result.cancelled ?  result : false
     }
 }
@@ -28,11 +34,15 @@ export const openCamera = async () => {
             quality: 0.1,
             allowsEditing: Platform.OS == 'ios'? false : true,
             aspect: [4,3],
-            base64: true
+            base64: true,
         })
+        
+       
         return !result.cancelled ?  result : false
     }
 }
+
+
 
     export const prepareBlob = async imageUri => {
         const blob = await new Promise((resolve, reject) => {

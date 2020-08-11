@@ -12,6 +12,10 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
+  Linking,
+  Platform,
+  AppState,
+   Button
 } from "react-native";
 import Swipeout from "react-native-swipeout";
 import ListItem from "../components/ListItem";
@@ -21,6 +25,12 @@ import "firebase/storage"
 import { snapshotToArray } from "../helpers/firebaseHelpers";
 import * as Animatable from "react-native-animatable";
 import * as ImageHelpers from '../helpers/ImageHelpers'
+import * as Location from 'expo-location'
+import * as Permissions from 'expo-permissions'
+import * as Constants from 'expo-constants'
+import Modal from 'react-native-modal'
+import * as IntentLauncherAndroid from 'expo-intent-launcher'
+
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -33,8 +43,70 @@ class HomeScreen extends React.Component {
       textInputData: "",
       jobs: [],
       jobsDone: [],
+      location: null,
+      errorMessage: '',
+      isLocationModalVisible: false,
+      appState: AppState.currentState
     };
     this.textInputRef = null;
+  }
+handleAppStateChange = (nextAppState)=> {
+  if(this.state.appState.match(/inactive|background/) && nextAppState ==='active'){
+    console.log('App has come to the foreground!')
+    this._getLocationAsync()
+  }
+  this.setState({appState: nextAppState})
+}
+
+  componentWillMount= async () => {
+    AppState.addEventListener('change',this.handleAppStateChange)
+    this._getLocationAsync()
+  }
+
+  componentWillUnmount(){
+    AppState.removeEventListener('change',this.handleAppStateChange)
+  }
+
+  _getLocationAsync = async () => {
+    try{
+      const {status} = await Permissions.askAsync(Permissions.LOCATION)
+      if(status !== 'granted'){
+          alert('You must have location enabled, to gain credit for the post')
+          
+          this.setState({errorMessage: 'Permission Not Granted'})
+      } 
+  
+      const location = await Location.getCurrentPositionAsync({});
+  
+      this.setState({
+        location
+      })
+  
+      console.log(location)
+  }
+  catch(error)
+  {
+    let status = Location.getProviderStatusAsync()
+    if(!status.locationServicesEnabled){
+      this.setState({isLocationModalVisible: true})
+    }
+  }
+
+  }
+
+  openSetting= ()=> {
+    if (Platform.OS == 'ios'){
+      Linking.openURL('app-settings')
+    } else {
+      IntentLauncherAndroid.startActivityAsync(
+        IntentLauncherAndroid.ACTION_LOCATION_SOURCE_SETTINGS
+      )
+    }
+    this.setState({openSetting: false})
+  }
+
+  setLocation = async () => {
+    await firebase.database().ref('jobs').child(this.state.currentUser.uid).update(this.state.location)
   }
 
   componentDidMount = async () => {
@@ -59,10 +131,13 @@ class HomeScreen extends React.Component {
     });
 
     this.props.loadJobs(jobsArray.reverse());
-    console.log(this.props.jobs);
+    // console.log(this.props.jobs);
 
     this.props.toggleIsLoading(false);
   };
+
+
+        
 
   showAddJob = () => {
     this.setState({ isAddJobVisible: true });
@@ -93,9 +168,9 @@ class HomeScreen extends React.Component {
         .ref("jobs")
         .child(this.state.currentUser.uid)
         .child(key)
-        .set({ name: job, completed: false });
+        .set({ name: job, completed: false, location: this.state.location});
 
-      this.props.addJob({ name: job, completed: false, key: key });
+      this.props.addJob({ name: job, completed: false, location: this.state.location, key: key });
       this.props.toggleIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -110,7 +185,7 @@ class HomeScreen extends React.Component {
         .ref("jobs")
         .child(this.state.currentUser.uid)
         .child(selectedJob.key)
-        .update({ completed: true });
+        .update({ completed: true, });
       let newJob = this.state.jobs.filter(
         (job) => job.name !== selectedJob.name
       );
@@ -172,6 +247,9 @@ class HomeScreen extends React.Component {
   openImageLibrary = async(selectedJob) => {
     const result = await ImageHelpers.openImageLibrary();
     if(result){
+      console.log('response: ', result);
+      // console.log('response latitude: ', result.latitude);
+      // console.log('response longitude: ', result.longitude);
       this.props.toggleIsLoading(true)
       const downloadUrl = await this.uploadImage(result, selectedJob)
       this.props.updateJobImage({...selectedJob, uri: downloadUrl})
@@ -183,12 +261,14 @@ class HomeScreen extends React.Component {
   openCamera = async(selectedJob) => {
     const result = await ImageHelpers.openCamera();
     if(result){
+      console.log('response: ', result);
       this.props.toggleIsLoading(true)
       const downloadUrl = await this.uploadImage(result, selectedJob)
       this.props.updateJobImage({...selectedJob, uri: downloadUrl})
       this.props.toggleIsLoading(false)
     }
   }
+
 
   addImage = (selectedJob) => {
     const options = ["select from photos", "open camerea", "cancel"];
@@ -274,6 +354,12 @@ class HomeScreen extends React.Component {
         >
           <Text style={{ fontSize: 30, color: "#00a7ff" }}>Geo Lure</Text>
         </View> */}
+        <Modal onModalHide={this.state.openSetting? this.openSetting:undefined} isVisible = {this.state.isLocationModalVisible}>
+          <View style={{height:300, width: 400, backgroundColor: 'white', alignItems:'center', justifyContent:'center'}}>
+            <Button onPress={()=> this.setState({isLocationModalVisible: false, openSetting: true})}
+            title="Enable Location Services"/>
+          </View>
+        </Modal>
         <View style={{ flex: 1 }}>
           {this.props.jobs.isLoadingJobs && (
             <View

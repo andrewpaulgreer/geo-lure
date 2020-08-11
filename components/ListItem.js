@@ -77,6 +77,7 @@ const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
                 fill={100}
                 tintColor="#00a7ff"
                 backgroundColor="#3e4544"
+
                     /> }
                 indicatorProps={{
                     size:70,

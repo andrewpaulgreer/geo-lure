@@ -28,9 +28,11 @@ import {
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { Ionicons } from "@expo/vector-icons";
 
+
 import * as firebase from "firebase/app";
 import { firebaseConfig } from "./config/config";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+
 
 /**
  * AppSwitchNav
@@ -43,6 +45,8 @@ class App extends React.Component {
     super();
     this.initializeFirebase();
   }
+
+
 
   initializeFirebase = () => {
     firebase.initializeApp(firebaseConfig);
