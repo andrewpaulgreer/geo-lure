@@ -289,41 +289,29 @@ handleAppStateChange = (nextAppState)=> {
     );
   };
 
+
   renderItem = (item, index) => {
     let swipeoutButtons = [
       {
         text: "delete",
         component: (
-          <View>
-            <Ionicons name="ios-trash" size={24} color="white" />
+          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Ionicons name="ios-trash" size={40} color="white"   />
           </View>
         ),
         backgroundColor: "red",
-        onPress: () => this.deleteJob(item, index),
+        onPress: () => this.deleteJob(item, index)
       },
-    ];
-
-    if (!item.completed) {
-      swipeoutButtons.unshift({
-        text: "Mark Done",
-        component: (
-          <View>
-            <Text style={{ color: "black" }}>Mark as Done</Text>
-          </View>
-        ),
-        backgroundColor: "#19ffa8",
-        onPress: () => this.markAsDone(item, index),
-      });
-    }
+    ]
 
     return (
       <Swipeout
         autoClose={true}
-        style={{ marginHorizontal: 5, marginVertical: 5 }}
+        style={{ marginHorizontal: 5, marginVertical: 5}}
         backgroundColor="#3e4544"
         right={swipeoutButtons}
       >
-        <ListItem editable={true} marginVertical={0} item={item} onPress={() => this.addImage(item)} onPressTwo={() => this.addImage(item)}>
+        <ListItem editable={true} marginVertical={0} item={item} onPress={() => this.addImage(item)}>
           
           {item.completed ? (
             <Ionicons name="ios-checkmark" color="green" size={50} />

@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+
+
 import NetworkImage from 'react-native-image-progress'
 import {AnimatedCircularProgress} from 'react-native-circular-progress'
 
@@ -47,37 +49,6 @@ const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
                 fill={100}
                 tintColor="#00a7ff"
                 backgroundColor="#3e4544"
-                    /> }
-                indicatorProps={{
-                    size:70,
-                    borderWidth: 0,
-                    color: "#00a7ff"
-                }}
-                imageStyle={{borderRadius: 35}}
-                />
-                 ) :(
-              <Image
-                source={require("../assets/icon.png")}
-                style={styles.image}
-              ></Image>
-                 )}
-            </TouchableOpacity>
-          </View>
-          <View style={styles.imageContainer}>
-          <TouchableOpacity
-              disabled={!editable}
-              style={{ flex: 1 }}
-              onPress={() => onPressTwo(item)}
-            >
-                {item.image?(
-                <NetworkImage source={{uri:item.image}} style={styles.image} 
-                indicator={()=> <AnimatedCircularProgress
-                size={100}
-                width={5}
-                fill={100}
-                tintColor="#00a7ff"
-                backgroundColor="#3e4544"
-
                     /> }
                 indicatorProps={{
                     size:70,
