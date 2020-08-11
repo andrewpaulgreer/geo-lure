@@ -9,12 +9,14 @@ import {
 } from "react-native";
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import {connect} from 'react-redux'
 
 class SettingsScreen extends React.Component {
     signOut = async() => {
         try{
             await firebase.auth().signOut()
-            this.props.navigation.navigate('WelcomeScreen')
+            this.props.signOut()
+            // this.props.navigation.navigate('WelcomeScreen')
         }catch(error)
         {
             alert('Unable to sign out right now')
@@ -40,6 +42,13 @@ class SettingsScreen extends React.Component {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+      signOut: () => dispatch({type:'SIGN_OUT'})
+  }
+}
+export default connect(null, mapDispatchToProps)(SettingsScreen);
+
 const styles = StyleSheet.create({
 
   text: {
@@ -60,4 +69,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SettingsScreen;
+

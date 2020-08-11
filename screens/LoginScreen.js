@@ -11,7 +11,7 @@ import {
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import 'firebase/database'
-
+import {connect} from 'react-redux'
 class LoginScreen extends React.Component {
   constructor() {
     super();
@@ -33,7 +33,8 @@ class LoginScreen extends React.Component {
 
 
           this.setState({isLoading: false})
-          this.props.navigation.navigate('LoadingScreen')
+          this.props.signIn(response.user)
+          // this.props.navigation.navigate('LoadingScreen')
         } 
        }catch(error)
        {
@@ -134,6 +135,15 @@ class LoginScreen extends React.Component {
   }
 }
 
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signIn: user => dispatch({type:'SIGN_IN', payload:user}),
+    }
+}
+export default connect(null, mapDispatchToProps)(LoginScreen);
+
 const styles = StyleSheet.create({
   logo: {
     justifyContent: "center",
@@ -183,4 +193,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+

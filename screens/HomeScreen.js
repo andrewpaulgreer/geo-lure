@@ -110,8 +110,8 @@ handleAppStateChange = (nextAppState)=> {
   }
 
   componentDidMount = async () => {
-    const { navigation } = this.props;
-    const user = navigation.getParam("user");
+ 
+    const user = this.props.currentUser
 
     const currentUserData = await firebase
       .database()
@@ -436,6 +436,7 @@ handleAppStateChange = (nextAppState)=> {
 const mapStateToProps = (state) => {
   return {
     jobs: state.jobs,
+    currentUser: state.auth.currentUser
   };
 };
 

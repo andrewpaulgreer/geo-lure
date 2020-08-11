@@ -17,7 +17,7 @@ import CountContainer from "./redux/containers/CountContianer";
 import JobsPosted from "./screens/HomeTabNavigator/JobsPosted";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-
+import GeoLure from './GeoLure'
 import {
   createAppContainer,
   createSwitchNavigator,
@@ -54,9 +54,7 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <ActionSheetProvider>
-          <AppContainer />
-        </ActionSheetProvider>
+          <GeoLure />
       </Provider>
     );
   }
