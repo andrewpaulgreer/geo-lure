@@ -72,8 +72,10 @@ class LoginScreen extends React.Component {
         //sign in user in db
         const user = await firebase.database().ref('users/').child(response.user.uid)
         .set({email:response.user.email, uid:response.user.uid})
+        
+        alert('Thanks for signing up, you will now need to login')
 
-        this.props.navigation.navigate('LoadingScreen')
+        // this.props.navigation.navigate('HomeScreen')
         // this.onSignIn(this.state.email,this.state.password)
         //navigate
       } 

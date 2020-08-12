@@ -157,10 +157,36 @@ const HomeStackNavigator = ({ navigation }) => (
   </Stack.Navigator>
 );
 
+const SettingsStackNavigator = ({ navigation }) => (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#3e4544",
+        },
+        headerTintColor: "#00a7ff",
+        headerLeft: () => (
+          <Ionicons
+            onPress={() => navigation.openDrawer()}
+            name="ios-menu"
+            size={40}
+            color="#d3d7d6"
+            style={{ marginLeft: 10 }}
+          />
+        ),
+      }}
+    >
+      <Stack.Screen 
+      options={({route})=> ({
+         title: "Settings" 
+      })}
+      name="SettingsScreen" component={SettingsScreen} />
+    </Stack.Navigator>
+  );
+
 const AppDrawerNavigator = () => (
   <Drawer.Navigator>
     <Drawer.Screen name="Home" component={HomeStackNavigator} />
-    <Drawer.Screen name="Settings" component={SettingsScreen} />
+    <Drawer.Screen name="Settings" component={SettingsStackNavigator} />
   </Drawer.Navigator>
 );
 
