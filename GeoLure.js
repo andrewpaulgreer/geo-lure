@@ -87,22 +87,13 @@ class GeoLure extends Component {
 
 const HomeTabNavigator = () => (
   <Tab.Navigator
-  screenOptions={({route}) => ({
-      tabBarIcon: ({color, size}) => {
-          switch(route.name){
-              case "Home":
-                  return <CountContainer color="white" type="jobs" />
-                  case "JobsPosted":
-                    return <CountContainer color="white" type="jobsDone" />
-          }
-      }
-  })}
     tabBarOptions={{
       activeTintColor: "#00a7ff",
       inactiveTintColor: "white",
-      style: { backgroundColor: "#3e4544" },
+      style: { backgroundColor: "#3e4544", justifyContent:'center', alignItems: "center" },
       labelStyle: {
         fontSize: 20,
+        marginBottom: 10
       },
     }}
   >
@@ -118,18 +109,7 @@ const HomeTabNavigator = () => (
     />
   </Tab.Navigator>
 );
-const getHeaderTitle = route => {
-    const routeName = route.state? route.state.routes[route.state.index].name
-    : 'Home'
-    switch(routeName){
-        case "Home": 
-        return "Home";
-        case "jobsDone":
-        return "Jobs Posted";
-        case "HomeTabNavigator":
-        return "Geo-Lure";
-    }
-}
+
 
 const HomeStackNavigator = ({ navigation }) => (
   <Stack.Navigator
