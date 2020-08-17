@@ -9,45 +9,42 @@ import {
 } from "react-native";
 import * as firebase from "firebase/app";
 import "firebase/auth";
-import {connect} from 'react-redux'
+import {connect, useDispatch} from 'react-redux'
+import {signOut} from '../redux/actions'
 
-class SettingsScreen extends React.Component {
-    signOut = async() => {
-        try{
-            await firebase.auth().signOut()
-            this.props.signOut()
-            // this.props.navigation.navigate('WelcomeScreen')
-        }catch(error)
-        {
-            alert('Unable to sign out right now')
-        }
+export default function SettingsScreen (){
+  const dispatch = useDispatch()
+
+  const handleSignOut = async() => {
+    try{
+        await firebase.auth().signOut()
+        dispatch(signOut());
+        // this.props.signOut()
+        // this.props.navigation.navigate('WelcomeScreen')
+    }catch(error)
+    {
+        alert('Unable to sign out right now')
     }
-
-  render() {
-    return (
-      <View style={{ flex: 1, backgroundColor: "#3e4544" }}>
-           <View style={{flex: 1, alignItems:"center", justifyContent: "center"}}>
-        <TouchableOpacity
-          onPress={this.signOut}
-        >
-          <View
-            style={styles.settings}
-          >
-            <Text style={styles.text}>Sign Out</Text>
-          </View>
-        </TouchableOpacity>
-        </View>
+}
+return (
+  <View style={{ flex: 1, backgroundColor: "#3e4544" }}>
+       <View style={{flex: 1, alignItems:"center", justifyContent: "center"}}>
+    <TouchableOpacity
+      onPress={handleSignOut}
+    >
+      <View
+        style={styles.settings}
+      >
+        <Text style={styles.text}>Sign Out</Text>
       </View>
-    );
-  }
+    </TouchableOpacity>
+    </View>
+  </View>
+);
+
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-      signOut: () => dispatch({type:'SIGN_OUT'})
-  }
-}
-export default connect(null, mapDispatchToProps)(SettingsScreen);
+
 
 const styles = StyleSheet.create({
 

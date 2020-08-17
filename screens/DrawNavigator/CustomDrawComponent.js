@@ -5,8 +5,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { DrawerItems } from "react-navigation";
 
-class CustomDraw extends React.Component {
-  render() {
+
+export default function CustomDraw (props) {
+  
     return (
       <ScrollView>
         <SafeAreaView style={{ backgroundColor: "#3e4544" }} />
@@ -21,10 +22,10 @@ class CustomDraw extends React.Component {
         >
           <Text style={styles.logo}>GeoLure</Text>
         </View>
-        <DrawerItems {...this.props} />
+        <DrawerItems {...props} />
       </ScrollView>
     );
-  }
+  
 }
 
 const styles = StyleSheet.create({
@@ -45,4 +46,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomDraw;
+

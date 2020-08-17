@@ -11,40 +11,43 @@ import {
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
+import {useNavigation} from '@react-navigation/native'
 
-class WelcomeScreen extends React.Component {
- render(){
-     return (
-         <View style={{flex: 1, backgroundColor:"#3e4544"}}>
-             <View style={{flex: 1, justifyContent: "center", alignItems:"center"}}>
-                <Text style={styles.logo}>GeoLure</Text>
-             </View>
-             <View style={{flex: 1}}>
-             <View style={{flex: 1, alignItems:"center"}}>
-             <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('LoginScreen')}
-              >
-                <View
-                  style={{
-                    width: 350,
-                    height: 100,
-                    backgroundColor: "transparent",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderColor: "#19ffa8",
-                    borderWidth: 3,
-                    borderRadius: 180,
-                  }}
-                >
-                  <Text style={styles.login}>Login</Text>
-                </View>
-              </TouchableOpacity>
-              </View>
-             </View>
+export default function WelcomeScreen(){
+
+  const navigation = useNavigation();
+
+  return (
+    <View style={{flex: 1, backgroundColor:"#3e4544"}}>
+        <View style={{flex: 1, justifyContent: "center", alignItems:"center"}}>
+           <Text style={styles.logo}>GeoLure</Text>
+        </View>
+        <View style={{flex: 1}}>
+        <View style={{flex: 1, alignItems:"center"}}>
+        <TouchableOpacity
+           onPress={() => navigation.navigate('LoginScreen')}
+         >
+           <View
+             style={{
+               width: 350,
+               height: 100,
+               backgroundColor: "transparent",
+               alignItems: "center",
+               justifyContent: "center",
+               borderColor: "#19ffa8",
+               borderWidth: 3,
+               borderRadius: 180,
+             }}
+           >
+             <Text style={styles.login}>Login</Text>
+           </View>
+         </TouchableOpacity>
          </View>
-     )
- }
+        </View>
+    </View>
+)
 }
+
 
 const styles = StyleSheet.create({
   logo: {
@@ -64,4 +67,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default WelcomeScreen;
+
