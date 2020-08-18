@@ -195,16 +195,21 @@ const JobRow = ({ item, index }) => {
         item={item}
         onPress={() => addImage(item)}
       >
-        <View>
+        <View style={{alignItems: "center", justifyContent: 'center', marginTop: 5}}>
           <RadioForm
             formHorizontal={true}
             labelHorizontal={false}
             radio_props={radio_props}
             initial={-1}
+            outerColor={'#00a7ff'}
+            selectedButtonColor={'#19ffa8'}
+            buttonSize={30}
+            buttonOuterSize={40}
             onPress={(value) => setValue(value)}
+            labelColor={'#00a7ff'}
+            labelStyle={{fontSize: 22, marginHorizontal: 10, paddingLeft: 10, paddingTop: 10, marginTop: 5}}
           />
         </View>
-
         {item.completed ? (
           <Ionicons name="ios-checkmark" color="green" size={50} />
         ) : (

@@ -29,16 +29,16 @@ const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
             fontWeight: "bold",
             fontSize: 25,
             marginTop: 5,
-            marginBottom: 2,
+            marginBottom: 0,
           }}
         >
           {item.name}
         </Text>
         <Text style={{
-            fontWeight: "bold",
-            fontSize: 15,
+           
+            fontSize: 20,
             marginTop: 2,
-            marginBottom: 8,
+            marginBottom: 2,
           }}>{item.value}</Text>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View style={styles.imageContainer}>
@@ -64,10 +64,12 @@ const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
                 imageStyle={{borderRadius: 35}}
                 />
                  ) :(
+                
               <Image
-                source={require("../assets/icon.png")}
-                style={styles.image}
+                source={require("../assets/cam-icon-3.png")}
+                style={styles.placeholder}
               ></Image>
+             
                  )}
             </TouchableOpacity>
           </View>
@@ -94,23 +96,29 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    height: 150,
-    width: 170,
+    height: 180,
+    width: 200,
     borderRadius: 35,
+  },
+  placeholder: {
+    flex: 1,
+    width: 100,
+    height: 100,
+    resizeMode: 'contain'
   },
   imageContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingLeft: 5,
-    marginBottom: 5
+    marginBottom: 5,
   },
   beforeAfterText: {
     fontSize: 20,
   },
   listContainer: {
     flex: 1,
-    height: 300,
+    height: 350,
     justifyContent: "center",
     flexDirection: "column",
     backgroundColor: "white",
