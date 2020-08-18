@@ -31,3 +31,8 @@ export const addJob = job => ({
 export const signOut = () => ({
     type: 'SIGN_OUT'
 })
+
+export const chosenType = (job) => ({
+    type: 'ADD_TYPE',
+    payload: job
+})

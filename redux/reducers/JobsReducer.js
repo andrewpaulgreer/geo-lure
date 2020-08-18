@@ -5,7 +5,8 @@ const initialState = {
   jobsDone: [],
   isloadingJobs: true,
   image: null,
-  location: {}
+  location: {},
+  value: [],
 };
 
 const jobs = (state = initialState, action) => {
@@ -74,7 +75,16 @@ const jobs = (state = initialState, action) => {
                 return job
             }),
         }
-
+    case 'ADD_TYPE':
+        return {
+            ...state,
+            jobs: state.jobs.map(job => {
+                if(job.name == action.payload.name){
+                    return {...job, value: action.payload}
+                }
+                return job
+            }),
+        }
     default:
       return state;
   }

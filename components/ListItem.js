@@ -29,11 +29,17 @@ const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
             fontWeight: "bold",
             fontSize: 25,
             marginTop: 5,
-            marginBottom: 10,
+            marginBottom: 2,
           }}
         >
           {item.name}
         </Text>
+        <Text style={{
+            fontWeight: "bold",
+            fontSize: 15,
+            marginTop: 2,
+            marginBottom: 8,
+          }}>{item.value}</Text>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View style={styles.imageContainer}>
             <TouchableOpacity
