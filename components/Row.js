@@ -28,7 +28,7 @@ import "firebase/storage";
 var radio_props = [
   { label: "Repair", value: "Repair" },
   { label: "Estimate", value: "Estimate" },
-  { label: "Installation", value: "Installation" },
+  { label: "Install", value: "Installation" },
 ];
 
 const JobRow = ({ item, index }) => {
@@ -185,7 +185,7 @@ const JobRow = ({ item, index }) => {
   return (
     <Swipeout
       autoClose={true}
-      style={{ marginHorizontal: 5, marginVertical: 5 }}
+      style={{ marginHorizontal: 0, marginVertical: 5 }}
       backgroundColor="#3e4544"
       right={swipeoutButtons}
     >
@@ -207,7 +207,7 @@ const JobRow = ({ item, index }) => {
             buttonOuterSize={40}
             onPress={(value) => setValue(value)}
             labelColor={'#00a7ff'}
-            labelStyle={{fontSize: 22, marginHorizontal: 10, paddingLeft: 10, paddingTop: 10, marginTop: 5}}
+            labelStyle={{fontSize: 22, marginRight: 15, marginLeft: 15, paddingTop: 10, marginTop: 5}}
           />
         </View>
         {item.completed ? (
