@@ -219,7 +219,7 @@ export default function HomeScreenHooks (){
             }
           >
             <TouchableOpacity
-              style={{ position: "absolute", bottom: 100, right: 100 }}
+              style={{ position: "absolute", bottom: 100, right: 85 }}
               onPress={() => handleAddJob(textInputData)}
             >
               <View

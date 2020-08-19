@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  ImageBackground
 } from "react-native";
 import * as firebase from "firebase/app";
 import "firebase/auth";
@@ -27,7 +28,7 @@ export default function SettingsScreen (){
     }
 }
 return (
-  <View style={{ flex: 1, backgroundColor: "#3e4544" }}>
+  <ImageBackground source={require('../assets/canva-real-house-blur.png')} style={styles.imageBackground}>
        <View style={{flex: 1, alignItems:"center", justifyContent: "center"}}>
     <TouchableOpacity
       onPress={handleSignOut}
@@ -39,7 +40,7 @@ return (
       </View>
     </TouchableOpacity>
     </View>
-  </View>
+  </ImageBackground>
 );
 
 }
@@ -63,7 +64,10 @@ const styles = StyleSheet.create({
     borderColor: "#00a7ff",
     borderWidth: 3,
     borderRadius: 180,
-  }
+  },
+  imageBackground: {
+    flex: 1, 
+    },
 });
 
 

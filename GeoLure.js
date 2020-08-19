@@ -5,7 +5,7 @@ import WelcomeScreen from "./screens/AppSwitchNavigator/WelcomeScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import CustomDraw from "./screens/DrawNavigator/CustomDrawComponent";
+import CustomDrawNavigator from "./screens/DrawNavigator/CustomDrawComponent";
 import LoadingScreen from "./screens/AppSwitchNavigator/LoadingScreen";
 import CountContainer from "./redux/containers/CountContianer";
 import JobsPosted from "./screens/HomeTabNavigator/JobsPosted";
@@ -148,8 +148,10 @@ const SettingsStackNavigator = ({ navigation }) => (
     </Stack.Navigator>
   );
 
-const AppDrawerNavigator = () => (
-  <Drawer.Navigator>
+const AppDrawerNavigator = ({navigation}) => (
+  <Drawer.Navigator
+  drawerContent={props => <CustomDrawNavigator {...props} />}
+  >
     <Drawer.Screen name="Home" component={HomeStackNavigator} />
     <Drawer.Screen name="Settings" component={SettingsStackNavigator} />
   </Drawer.Navigator>

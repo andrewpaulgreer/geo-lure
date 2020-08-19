@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  ImageBackground,
+  requireNativeComponent
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -18,9 +20,9 @@ export default function WelcomeScreen(){
   const navigation = useNavigation();
 
   return (
-    <View style={{flex: 1, backgroundColor:"#3e4544"}}>
+    <ImageBackground source={require('../../assets/canva-real-house.png')} style={styles.imageBackground}>
         <View style={{flex: 1, justifyContent: "center", alignItems:"center"}}>
-           <Text style={styles.logo}>GeoLure</Text>
+           
         </View>
         <View style={{flex: 1}}>
         <View style={{flex: 1, alignItems:"center"}}>
@@ -44,7 +46,7 @@ export default function WelcomeScreen(){
          </TouchableOpacity>
          </View>
         </View>
-    </View>
+    </ImageBackground>
 )
 }
 
@@ -64,6 +66,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     color: '#00a7ff'
+  },
+  imageBackground: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

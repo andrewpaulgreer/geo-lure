@@ -183,44 +183,59 @@ const JobRow = ({ item, index }) => {
   ];
 
   return (
-    <Swipeout
-      autoClose={true}
-      style={{ marginHorizontal: 0, marginVertical: 5 }}
-      backgroundColor="#3e4544"
-      right={swipeoutButtons}
+    // <Swipeout
+    //   autoClose={true}
+    //   style={{ marginHorizontal: 0, marginVertical: 5 }}
+    //   backgroundColor="#3e4544"
+    //   right={swipeoutButtons}
+    // >
+    <View style={{ marginHorizontal: 0, marginVertical: 5}}>
+    <ListItem
+      editable={true}
+      marginVertical={0}
+      item={item}
+      onPress={() => addImage(item)}
     >
-      <ListItem
-        editable={true}
-        marginVertical={0}
-        item={item}
-        onPress={() => addImage(item)}
-      >
-        <View style={{alignItems: "center", justifyContent: 'center', marginTop: 5}}>
-          <RadioForm
-            formHorizontal={true}
-            labelHorizontal={false}
-            radio_props={radio_props}
-            initial={-1}
-            outerColor={'#00a7ff'}
-            selectedButtonColor={'#19ffa8'}
-            buttonSize={30}
-            buttonOuterSize={40}
-            onPress={(value) => setValue(value)}
-            labelColor={'#00a7ff'}
-            labelStyle={{fontSize: 22, marginRight: 15, marginLeft: 15, paddingTop: 10, marginTop: 5}}
-          />
+      <TouchableOpacity onPress={() => handleDeleteJob(item, index)} style={{paddingRight: 20}}>
+        <View style={styles.delButton}>
+          <Ionicons name="ios-trash" size={30} color="white" />
         </View>
-        {item.completed ? (
-          <Ionicons name="ios-checkmark" color="green" size={50} />
-        ) : (
-          <TouchableOpacity onPress={() => markAsDone(item, index)}>
-            <View style={styles.postBtn}>
-              <Text style={{ color: "#00a7ff", fontSize: 20 }}>Post Job</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      </ListItem>
-    </Swipeout>
+      </TouchableOpacity>
+      <View
+        style={{ alignItems: "center", justifyContent: "center", marginTop: 5 }}
+      >
+        <RadioForm
+          formHorizontal={true}
+          labelHorizontal={false}
+          radio_props={radio_props}
+          initial={-1}
+          outerColor={"#00a7ff"}
+          selectedButtonColor={"#19ffa8"}
+          buttonSize={30}
+          buttonOuterSize={40}
+          onPress={(value) => setValue(value)}
+          labelColor={"#00a7ff"}
+          labelStyle={{
+            fontSize: 22,
+            marginRight: 15,
+            marginLeft: 15,
+            paddingTop: 10,
+            marginTop: 5,
+          }}
+        />
+      </View>
+      {item.completed ? (
+        <Ionicons name="ios-checkmark" color="green" size={50} />
+      ) : (
+        <TouchableOpacity onPress={() => markAsDone(item, index)}>
+          <View style={styles.postBtn}>
+            <Text style={{ color: "#00a7ff", fontSize: 20 }}>Post Job</Text>
+          </View>
+        </TouchableOpacity>
+      )}
+    </ListItem>
+    </View>
+    // </Swipeout>
   );
 };
 
@@ -254,6 +269,21 @@ const styles = StyleSheet.create({
     color: "#d3d3d3",
     margin: 3,
     height: 50,
+  },
+  animatedText: {
+    fontSize: 20,
+    color: "white",
+  },
+  delButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "red",
+    width: 40,
+    height: 40,
+    borderRadius: 30,
+    position: "absolute",
+    right: 140,
+    bottom: 120,
   },
 });
 

@@ -2,12 +2,11 @@ import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, Platform } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
-import { ScrollView } from "react-native-gesture-handler";
-import { DrawerItems } from "react-navigation";
+import { ScrollView} from "react-native-gesture-handler";
+import { DrawerItemList } from "@react-navigation/drawer";
+// import {DrawerItemList} from 'react-navigation/drawer'
 
-
-export default function CustomDraw (props) {
-  
+export default function CustomDrawNavigator(props) {
     return (
       <ScrollView>
         <SafeAreaView style={{ backgroundColor: "#3e4544" }} />
@@ -22,7 +21,7 @@ export default function CustomDraw (props) {
         >
           <Text style={styles.logo}>GeoLure</Text>
         </View>
-        <DrawerItems {...props} />
+        <DrawerItemList {...props} />
       </ScrollView>
     );
   
@@ -30,6 +29,7 @@ export default function CustomDraw (props) {
 
 const styles = StyleSheet.create({
   logo: {
+    marginTop: 20,
     justifyContent: "center",
     fontSize: 40,
     color: "#00a7ff",
