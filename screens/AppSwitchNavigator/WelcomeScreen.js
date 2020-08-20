@@ -20,7 +20,7 @@ export default function WelcomeScreen(){
   const navigation = useNavigation();
 
   return (
-    <ImageBackground source={require('../../assets/canva-real-house.png')} style={styles.imageBackground}>
+    <ImageBackground source={require('../../assets/EF-Local-Home.png')} style={styles.imageBackground}>
         <View style={{flex: 1, justifyContent: "center", alignItems:"center"}}>
            
         </View>
@@ -31,14 +31,16 @@ export default function WelcomeScreen(){
          >
            <View
              style={{
-               width: 350,
+               width: 300,
                height: 100,
                backgroundColor: "transparent",
                alignItems: "center",
                justifyContent: "center",
-               borderColor: "#19ffa8",
+               borderColor: "white",
                borderWidth: 3,
-               borderRadius: 180,
+               borderRadius: 10,
+               position: "center",
+               bottom: 100
              }}
            >
              <Text style={styles.login}>Login</Text>
@@ -60,13 +62,9 @@ const styles = StyleSheet.create({
   login: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: '#19ffa8'
+    color: 'white'
   },
-  signup: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#00a7ff'
-  },
+
   imageBackground: {
     flex: 1,
     alignItems: 'center',

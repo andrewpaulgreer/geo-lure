@@ -28,7 +28,7 @@ export default function SettingsScreen (){
     }
 }
 return (
-  <ImageBackground source={require('../assets/canva-real-house-blur.png')} style={styles.imageBackground}>
+  <ImageBackground source={require('../assets/EF-Local-Home.png')} style={styles.imageBackground}>
        <View style={{flex: 1, alignItems:"center", justifyContent: "center"}}>
     <TouchableOpacity
       onPress={handleSignOut}
@@ -55,15 +55,17 @@ const styles = StyleSheet.create({
     color: "white",
   },
   settings: {
-    width: 350,
+    width: 300,
     height: 100,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
-    borderColor: "#00a7ff",
+    borderColor: "#EE1B24",
     borderWidth: 3,
-    borderRadius: 180,
+    borderRadius: 10,
+    borderBottomRightRadius: 50,
+    borderTopLeftRadius: 50
   },
   imageBackground: {
     flex: 1, 

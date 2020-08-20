@@ -163,7 +163,7 @@ export default function HomeScreenHooks (){
   };
 
   return(
-    <View style={{ flex: 1, backgroundColor: "#3e4544" }}>
+    <View style={{ flex: 1, backgroundColor: "#17252D" }}>
         <SafeAreaView />
         {/* <Modal onModalHide={this.state.openSetting? this.openSetting:undefined} isVisible = {this.state.isLocationModalVisible}>
           <View style={{height:300, width: 400, backgroundColor: 'white', alignItems:'center', justifyContent:'center'}}>

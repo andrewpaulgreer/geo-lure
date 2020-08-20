@@ -98,7 +98,7 @@ export default function LoginScreenHooks() {
 
   return (
     <ImageBackground
-      source={require("../assets/canva-real-house-blur.png")}
+      source={require("../assets/EF-Local-Login.png")}
       style={styles.imageBackground}
     >
       {isLoading ? (
