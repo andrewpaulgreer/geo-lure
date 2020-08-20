@@ -119,7 +119,7 @@ export default function LoginScreenHooks() {
       <View style={{ marginTop: 50 }}>
         <TextInput
           style={styles.textInput}
-          placeholder="user@email.com"
+          placeholder="username@email.com"
           placeholderTextColor="white"
           keyboardType="email-address"
           onChangeText={(email) => setEmail(email)}
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   login: {
     fontSize: 25,
     fontWeight: "bold",
-    color: "#19ffa8",
+    color: "white",
   },
   signup: {
     fontSize: 25,
@@ -174,23 +174,27 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 70,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "white",
-    borderRadius: 25,
+    borderRadius: 10,
     marginHorizontal: 40,
     marginBottom: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     color: "white",
+    fontSize: 20
   },
   loginBtn: {
-    width: 350,
-    height: 70,
+    width: 300,
+    height: 100,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "#19ffa8",
+    marginTop: 5,
+    borderColor: "#EE1B24",
     borderWidth: 3,
-    borderRadius: 180,
+    borderRadius: 10,
+    borderBottomRightRadius: 50,
+    borderTopLeftRadius: 50
   },
   signupBtn: {
     width: 350,

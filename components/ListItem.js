@@ -30,12 +30,13 @@ const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
             fontSize: 25,
             marginTop: 5,
             marginBottom: 0,
+            color: "white"
           }}
         >
           {item.name}
         </Text>
         <Text style={{
-           
+           color: "white",
             fontSize: 20,
             marginTop: 2,
             marginBottom: 2,
@@ -64,11 +65,12 @@ const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
                 imageStyle={{borderRadius: 35}}
                 />
                  ) :(
-                
+                <View style={styles.placeholderContainer}>
               <Image
                 source={require("../assets/cam-icon-3.png")}
                 style={styles.placeholder}
               ></Image>
+              </View>
              
                  )}
             </TouchableOpacity>
@@ -99,12 +101,25 @@ const styles = StyleSheet.create({
     height: 180,
     width: 200,
     borderRadius: 35,
+    marginBottom: 10,
   },
   placeholder: {
     flex: 1,
     width: 100,
     height: 100,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+   
+  },
+  placeholderContainer: {
+    height: 100,
+    width: 150,
+    backgroundColor: "white",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: 'white',
+    borderBottomLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   imageContainer: {
     flex: 1,
@@ -121,8 +136,12 @@ const styles = StyleSheet.create({
     height: 350,
     justifyContent: "center",
     flexDirection: "column",
-    backgroundColor: "white",
-    borderRadius: 20,
+    backgroundColor: "#17252D",
+    borderRadius: 10,
+    borderWidth: 4,
+    borderColor: 'white',
+    borderBottomRightRadius: 50,
+    borderTopLeftRadius: 50,
     margin: 5,
   },
 });

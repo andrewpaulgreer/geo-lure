@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView, Platform } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Platform, Image } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import { ScrollView} from "react-native-gesture-handler";
@@ -9,17 +9,20 @@ import { DrawerItemList } from "@react-navigation/drawer";
 export default function CustomDrawNavigator(props) {
     return (
       <ScrollView>
-        <SafeAreaView style={{ backgroundColor: "#3e4544" }} />
+        <SafeAreaView style={{ backgroundColor: "#17252D" }} />
         <View
           style={{
             height: 150,
-            backgroundColor: "#3e4544",
+            backgroundColor: "#17252D",
             alignItems: "center",
             justifyContent: "center",
             paddingTop: Platform.OS == 'android'? 20:0
           }}
         >
-          <Text style={styles.logo}>GeoLure</Text>
+           <Image
+                source={require("../../assets/EF-Local-Draw.png")}
+                style={styles.placeholder}
+              ></Image>
         </View>
         <DrawerItemList {...props} />
       </ScrollView>
@@ -43,6 +46,12 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     color: "#00a7ff",
+  },
+  placeholder: {
+    flex: 1,
+    width: 300,
+    height: 500,
+    
   },
 });
 

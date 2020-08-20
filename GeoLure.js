@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { View, Text, Stylesheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import WelcomeScreen from "./screens/AppSwitchNavigator/WelcomeScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -42,7 +42,7 @@ const auth = useSelector((state)=> state.auth);
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: "#3e4544",
+            backgroundColor: "#17252D",
           },
           headerTintColor: "white",
         }}
@@ -55,7 +55,13 @@ const auth = useSelector((state)=> state.auth);
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
-          options={{ headerBackTitleVisible: false }}
+          options={({route})=> ({
+            title: "Login",
+            headerTintColor: "white",
+            fontSize: 30,
+            headerBackTitleVisible: false,
+         })}
+          // options={{ headerBackTitleVisible: false, tabBarLabel: "Login" }}
         />
       </Stack.Navigator>
     ) : (
@@ -75,7 +81,7 @@ const HomeTabNavigator = () => (
     tabBarOptions={{
       activeTintColor: "#00a7ff",
       inactiveTintColor: "white",
-      style: { backgroundColor: "#3e4544", justifyContent:'center', alignItems: "center" },
+      style: { backgroundColor: "rgb(23, 37, 45)", justifyContent:'center', alignItems: "center" },
       labelStyle: {
         fontSize: 20,
         marginBottom: 10
@@ -100,7 +106,7 @@ const HomeStackNavigator = ({ navigation }) => (
   <Stack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: "#3e4544",
+        backgroundColor: "#17252d",
       },
       headerTintColor: "#00a7ff",
       headerLeft: () => (
@@ -108,15 +114,19 @@ const HomeStackNavigator = ({ navigation }) => (
           onPress={() => navigation.openDrawer()}
           name="ios-menu"
           size={40}
-          color="#d3d7d6"
-          style={{ marginLeft: 10 }}
+          color="#EE1B24"
+          style={{ marginLeft: 15}}
         />
       ),
+      headerRight: ()=> (<Image source={require("./assets/House-Trans.png")}
+       style={styles.placeholder} ></Image> ),
+      
     }}
   >
     <Stack.Screen 
     options={({route})=> ({
-       title: "Geo Lure" 
+       title: "Easyfish Local",
+       headerTintColor: "#17252d"
     })}
     name="HomeTabNavigator" component={HomeTabNavigator} />
   </Stack.Navigator>
@@ -126,16 +136,17 @@ const SettingsStackNavigator = ({ navigation }) => (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#3e4544",
+          backgroundColor: "#17252d",
         },
-        headerTintColor: "#00a7ff",
+        headerTintColor: "white",
         headerLeft: () => (
           <Ionicons
             onPress={() => navigation.openDrawer()}
             name="ios-menu"
             size={40}
-            color="#d3d7d6"
-            style={{ marginLeft: 10 }}
+            color="#EE1B24"
+            style={styles.icon}
+            
           />
         ),
       }}
@@ -157,3 +168,27 @@ const AppDrawerNavigator = ({navigation}) => (
   </Drawer.Navigator>
 );
 
+
+const styles = StyleSheet.create({
+  placeholder: {
+    flex: 1,
+    height: 32,
+    width: 32,
+    position: 'relative',
+    right: 180,
+    bottom: 5,
+    resizeMode: 'contain'
+
+  },
+  imageContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 5,
+    marginBottom: 10,
+  },
+  icon: { 
+    marginLeft: 15, 
+    color:"#EE1B24"
+  }
+});

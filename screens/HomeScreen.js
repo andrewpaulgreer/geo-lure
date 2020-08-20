@@ -15,7 +15,8 @@ import {
   Linking,
   Platform,
   AppState,
-   Button
+   Button,
+   TriangleCorner
 } from "react-native";
 import ListItem from "../components/ListItem";
 import { Ionicons } from "@expo/vector-icons";
@@ -163,7 +164,8 @@ export default function HomeScreenHooks (){
   };
 
   return(
-    <View style={{ flex: 1, backgroundColor: "#17252D" }}>
+    <View style={{ flex: 1, backgroundColor: "#17252D"}}>
+     
         <SafeAreaView />
         {/* <Modal onModalHide={this.state.openSetting? this.openSetting:undefined} isVisible = {this.state.isLocationModalVisible}>
           <View style={{height:300, width: 400, backgroundColor: 'white', alignItems:'center', justifyContent:'center'}}>
@@ -194,7 +196,8 @@ export default function HomeScreenHooks (){
               ref={textInputRef}
             />
           </View>
-
+          <View style={styles.triangleTwo}></View>
+          <View style={styles.TriangleShapeView}></View>
           <FlatList
             data={jobs}
             // addin in row here where the upload data is under the row component
@@ -202,15 +205,15 @@ export default function HomeScreenHooks (){
             keyExtractor={(item, index) => index.toString()}
             ListEmptyComponent={
               !isLoadingJobs && (
-                <View style={{ marginTop: 50, alignItems: "center" }}>
-                  <Text style={{ fontWeight: "bold" }}>
-                    No Jobs Currently In Process
+                <View style={{ marginTop: 50, alignItems: "center", margin: 20 }}>
+                  <Text style={{ fontWeight: "bold", color: "white", fontSize: 15 }}>
+                    No Jobs Currently In Process, please type in the input box above to add one.
                   </Text>
                 </View>
               )
             }
           />
-
+                
           <Animatable.View
             animation={
               textInputData.length > 0
@@ -227,17 +230,18 @@ export default function HomeScreenHooks (){
                   width: 200,
                   height: 200,
                   borderRadius: 100,
-                  backgroundColor: "#19ffa8",
+                  backgroundColor: "#E4F5FF",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <Text style={{ color: "white", fontSize: 75 }}>+</Text>
+                <Text style={{ color: "#17252D", fontSize: 75 }}>+</Text>
               </View>
             </TouchableOpacity>
           </Animatable.View>
         </View>
         <SafeAreaView />
+        
       </View>
   )
 
@@ -275,5 +279,39 @@ const styles = StyleSheet.create({
     color: "#d3d3d3",
     margin: 3,
     height: 50,
+  },
+  TriangleShapeView: {
+    //To make Triangle Shape
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderRightWidth: 340,
+    borderTopWidth: 290,
+    borderRightColor: 'transparent',
+    borderTopColor: "#17252D",
+    transform: [
+      {rotate: '180deg'}
+    ],
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+  },
+  triangleTwo: {
+    //To make Triangle Shape
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderRightWidth: 420,
+    borderTopWidth: 300,
+    borderRightColor: 'transparent',
+    borderTopColor: 'red',
+    transform: [
+      {rotate: '180deg'}
+    ],
+    position: "absolute",
+    right: 0,
+    bottom: 0,
   },
 });

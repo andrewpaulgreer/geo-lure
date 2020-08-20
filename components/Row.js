@@ -189,51 +189,61 @@ const JobRow = ({ item, index }) => {
     //   backgroundColor="#3e4544"
     //   right={swipeoutButtons}
     // >
-    <View style={{ marginHorizontal: 0, marginVertical: 5}}>
-    <ListItem
-      editable={true}
-      marginVertical={0}
-      item={item}
-      onPress={() => addImage(item)}
-    >
-      <TouchableOpacity onPress={() => handleDeleteJob(item, index)} style={{paddingRight: 20}}>
-        <View style={styles.delButton}>
-          <Ionicons name="ios-trash" size={30} color="white" />
-        </View>
-      </TouchableOpacity>
-      <View
-        style={{ alignItems: "center", justifyContent: "center", marginTop: 5 }}
+    <View style={{ marginHorizontal: 0, marginVertical: 5 }}>
+      <ListItem
+        editable={true}
+        marginVertical={0}
+        item={item}
+        onPress={() => addImage(item)}
       >
-        <RadioForm
-          formHorizontal={true}
-          labelHorizontal={false}
-          radio_props={radio_props}
-          initial={-1}
-          outerColor={"#00a7ff"}
-          selectedButtonColor={"#19ffa8"}
-          buttonSize={30}
-          buttonOuterSize={40}
-          onPress={(value) => setValue(value)}
-          labelColor={"#00a7ff"}
-          labelStyle={{
-            fontSize: 22,
-            marginRight: 15,
-            marginLeft: 15,
-            paddingTop: 10,
-            marginTop: 5,
-          }}
-        />
-      </View>
-      {item.completed ? (
-        <Ionicons name="ios-checkmark" color="green" size={50} />
-      ) : (
-        <TouchableOpacity onPress={() => markAsDone(item, index)}>
-          <View style={styles.postBtn}>
-            <Text style={{ color: "#00a7ff", fontSize: 20 }}>Post Job</Text>
+        <TouchableOpacity
+          onPress={() => handleDeleteJob(item, index)}
+          style={{ paddingRight: 20 }}
+        >
+          <View style={styles.delButton}>
+            <Ionicons name="ios-trash" size={30} color="#EE1B24" />
           </View>
         </TouchableOpacity>
-      )}
-    </ListItem>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 5,
+          }}
+        >
+          <RadioForm
+            formHorizontal={true}
+            labelHorizontal={false}
+            radio_props={radio_props}
+            initial={-1}
+            outerColor={"#00a7ff"}
+            selectedButtonColor={"#EE1B24"}
+            buttonSize={30}
+            buttonOuterSize={40}
+            onPress={(value) => setValue(value)}
+            labelColor={"white"}
+            selectedLabelColor={"#00a7ff"}
+            labelStyle={{
+              fontSize: 22,
+              marginRight: 15,
+              marginLeft: 15,
+              paddingTop: 10,
+              marginTop: 5,
+            }}
+          />
+        </View>
+        {item.completed ? (
+          <Ionicons name="ios-checkmark" color="green" size={50} />
+        ) : (
+          <TouchableOpacity onPress={() => markAsDone(item, index)} style={{width: 350, alignItems: 'center', justifyContent: 'center'}}>
+            <View style={styles.postBtn}>
+              <View style={styles.postTxtContainer}>
+              <Text style={styles.postText}>Post Job</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
+      </ListItem>
     </View>
     // </Swipeout>
   );
@@ -247,7 +257,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   postBtn: {
-    width: 350,
+    width: "90%",
     height: 60,
     backgroundColor: "transparent",
     alignItems: "center",
@@ -255,8 +265,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     borderRadius: 20,
+    backgroundColor: "#17252D",
     borderColor: "#00a7ff",
     borderWidth: 3,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 90,
   },
   jobInput: {
     flex: 1,
@@ -277,14 +290,34 @@ const styles = StyleSheet.create({
   delButton: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "red",
+    backgroundColor: "#17252D",
+    borderWidth: 2,
     width: 40,
     height: 40,
-    borderRadius: 30,
+    borderRadius: 40,
     position: "absolute",
-    right: 140,
-    bottom: 120,
+    borderColor: "#EE1B24",
+    right: "35%",
+    bottom: 90,
   },
+  postText: { 
+    fontSize: 30,
+    color: "#00a7ff"
+    
+  },
+  // postTxtContainer: {
+  //   width: 330,
+  //   height: 50,
+   
+  //   borderRadius: 20,
+  //   borderBottomRightRadius: 60,
+  //   borderBottomLeftRadius: 60,
+  //   borderColor:"white",
+  //   backgroundColor: "#17252D",
+  //   borderWidth: 3,
+  //   alignItems: "center",
+  //   justifyContent: "center"
+  // }
 });
 
 export default JobRow;
