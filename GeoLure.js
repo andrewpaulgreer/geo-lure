@@ -118,7 +118,7 @@ const HomeStackNavigator = ({ navigation }) => (
           style={{ marginLeft: 15}}
         />
       ),
-      headerRight: ()=> (<Image source={require("./assets/House-Trans.png")}
+      headerRight: ()=> (<Image source={require("./assets/roof.png")}
        style={styles.placeholder} ></Image> ),
       
     }}

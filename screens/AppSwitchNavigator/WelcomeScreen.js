@@ -20,13 +20,14 @@ export default function WelcomeScreen(){
   const navigation = useNavigation();
 
   return (
-    <ImageBackground source={require('../../assets/EF-Local-Home.png')} style={styles.imageBackground}>
+    <ImageBackground source={require('../../assets/Welcome.jpg')} style={styles.imageBackground}>
         <View style={{flex: 1, justifyContent: "center", alignItems:"center"}}>
            
         </View>
         <View style={{flex: 1}}>
-        <View style={{flex: 1, alignItems:"center"}}>
+        <View style={{flex: 1}}>
         <TouchableOpacity
+        style={{bottom: 100}}
            onPress={() => navigation.navigate('LoginScreen')}
          >
            <View
@@ -36,11 +37,10 @@ export default function WelcomeScreen(){
                backgroundColor: "transparent",
                alignItems: "center",
                justifyContent: "center",
-               borderColor: "white",
+               borderColor: "#EE1B24",
                borderWidth: 3,
                borderRadius: 10,
-               position: "center",
-               bottom: 100
+               
              }}
            >
              <Text style={styles.login}>Login</Text>

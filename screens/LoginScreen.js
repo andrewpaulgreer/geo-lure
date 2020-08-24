@@ -29,8 +29,14 @@ export default function LoginScreenHooks() {
         const response = await firebase
           .auth()
           .signInWithEmailAndPassword(email, password);
+          
         if (response) {
           // this.setState({isLoading: false})
+          const user = await firebase
+          .database()
+          .ref("users/")
+          .child(response.user.uid)
+          .set({ email: response.user.email, uid: response.user.uid });
           setIsLoading(false);
           dispatch({ type: "SIGN_IN", payload: response.user });
           // this.props.signIn(response.user)
@@ -98,7 +104,7 @@ export default function LoginScreenHooks() {
 
   return (
     <ImageBackground
-      source={require("../assets/EF-Local-Login.png")}
+      source={require("../assets/Login.jpg")}
       style={styles.imageBackground}
     >
       {isLoading ? (
@@ -116,7 +122,7 @@ export default function LoginScreenHooks() {
           <ActivityIndicator size="large" color="#19ffa8" />
         </View>
       ) : null}
-      <View style={{ marginTop: 50 }}>
+      <View style={{ marginTop:20 }}>
         <TextInput
           style={styles.textInput}
           placeholder="username@email.com"
@@ -178,48 +184,36 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderRadius: 10,
     marginHorizontal: 40,
-    marginBottom: 20,
+    marginBottom: 15,
     paddingHorizontal: 15,
     color: "white",
     fontSize: 20
   },
   loginBtn: {
     width: 300,
-    height: 100,
+    height: 85,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 5,
+    marginTop: 0,
     borderColor: "#EE1B24",
     borderWidth: 3,
     borderRadius: 10,
     borderBottomRightRadius: 50,
     borderTopLeftRadius: 50
   },
-  signupBtn: {
-    width: 350,
-    height: 70,
-    backgroundColor: "transparent",
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: "#00a7ff",
-    borderWidth: 3,
-    borderRadius: 180,
-    marginTop: 100,
-  },
   imageBackground: {
     flex: 1,
   },
   disclaimer: {
-    fontSize: 15,
+    fontSize: 14,
     color: "white",
   },
   disclaimerContainer: {
     alignItems: "center",
     justifyContent: "center",
-
     height: 70,
-    width: 350,
+    width: 300,
     borderColor: "white",
     marginTop: 15,
   },

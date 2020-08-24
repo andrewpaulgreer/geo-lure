@@ -198,7 +198,8 @@ const JobRow = ({ item, index }) => {
       >
         <TouchableOpacity
           onPress={() => handleDeleteJob(item, index)}
-          style={{ paddingRight: 20 }}
+          style={{ paddingRight: 20,  right: "35%",
+          bottom: 90, }}
         >
           <View style={styles.delButton}>
             <Ionicons name="ios-trash" size={30} color="#EE1B24" />
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 10,
     borderRadius: 20,
     backgroundColor: "#17252D",
@@ -295,10 +296,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 40,
-    position: "absolute",
+   
     borderColor: "#EE1B24",
-    right: "35%",
-    bottom: 90,
   },
   postText: { 
     fontSize: 30,

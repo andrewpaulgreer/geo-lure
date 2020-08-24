@@ -198,6 +198,44 @@ export default function HomeScreenHooks (){
           </View>
           <View style={styles.triangleTwo}></View>
           <View style={styles.TriangleShapeView}></View>
+
+          
+          <Animatable.View
+            animation={
+              textInputData.length > 0
+                ? "bounceInRight"
+                : "bounceOutRight"
+            }
+            style={{
+              flex: 1,
+              bottom: 0, top: 200, left: 50,   width: 350,
+              height: 350, borderRadius: 100,
+             position: "absolute", zIndex: 1003
+
+            }}
+          >
+                 <View
+                style={{
+             flex: 1
+                }}
+            >
+              
+            <TouchableOpacity
+              style={{ position: "absolute", bottom: 0, left: 50,   width: 200,
+              height: 200, borderRadius: 100,
+              zIndex: 1001,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#E4F5FF",
+            flex: 1}}
+              onPress={() => handleAddJob(textInputData)}
+            >
+         <Text style={{color: "#17252D", fontSize: 75, position: "absolute", bottom: 60, left: 75, zIndex: 1002, }}>+</Text>
+                
+             
+            </TouchableOpacity>
+            </View>
+          </Animatable.View>
           <FlatList
             data={jobs}
             // addin in row here where the upload data is under the row component
@@ -213,20 +251,24 @@ export default function HomeScreenHooks (){
               )
             }
           />
-                
-          <Animatable.View
+         
+          {/* <Animatable.View
             animation={
               textInputData.length > 0
                 ? "bounceInRight"
                 : "bounceOutRight"
             }
+            style={{ flex: 1, left: 100, bottom: 100, backgroundColor: 'transparent' }}
           >
+               
             <TouchableOpacity
-              style={{ position: "absolute", bottom: 100, right: 85 }}
+              style={{position: 'absolute', height: 200, width: 200, left: 0, bottom: 0, backgroundColor: 'transparent' }}
               onPress={() => handleAddJob(textInputData)}
             >
               <View
                 style={{
+                  position: 'absolute',
+                  left: 0, bottom: 0,
                   width: 200,
                   height: 200,
                   borderRadius: 100,
@@ -238,7 +280,16 @@ export default function HomeScreenHooks (){
                 <Text style={{ color: "#17252D", fontSize: 75 }}>+</Text>
               </View>
             </TouchableOpacity>
-          </Animatable.View>
+            
+          </Animatable.View> */}
+          
+               {/* <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+        <View style={{ height: 200, backgroundColor: 'transparent' }} />
+        <View style={{ height: 200 }}>
+          <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'yellow' }} />
+          <View style={{ height: 50, width: 50, backgroundColor: 'aqua', position: 'absolute', top: -20 }} />
+        </View>
+      </View> */}
         </View>
         <SafeAreaView />
         
@@ -313,5 +364,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     bottom: 0,
+  },
+  extraComponentContainer: {
+    // fakes overflow but requires more markup
+    
+    backgroundColor: "transparent",
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingBottom: 20,
+    paddingRight: 20,
+    position: "relative"
   },
 });

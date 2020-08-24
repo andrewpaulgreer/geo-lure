@@ -20,7 +20,7 @@ export default function CustomDrawNavigator(props) {
           }}
         >
            <Image
-                source={require("../../assets/EF-Local-Draw.png")}
+                source={require("../../assets/Draw.jpg")}
                 style={styles.placeholder}
               ></Image>
         </View>
