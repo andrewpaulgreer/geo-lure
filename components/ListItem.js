@@ -8,10 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-
-
-import NetworkImage from 'react-native-image-progress'
-import {AnimatedCircularProgress} from 'react-native-circular-progress'
+import NetworkImage from "react-native-image-progress";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
   return (
@@ -30,17 +28,21 @@ const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
             fontSize: 25,
             marginTop: 5,
             marginBottom: 0,
-            color: "white"
+            color: "white",
           }}
         >
           {item.name}
         </Text>
-        <Text style={{
-           color: "white",
+        <Text
+          style={{
+            color: "white",
             fontSize: 20,
             marginTop: 2,
             marginBottom: 2,
-          }}>{item.value}</Text>
+          }}
+        >
+          {item.value}
+        </Text>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View style={styles.imageContainer}>
             <TouchableOpacity
@@ -48,31 +50,34 @@ const ListItem = ({ item, children, marginVertical, editable, onPress }) => {
               style={{ flex: 1 }}
               onPress={() => onPress(item)}
             >
-                {item.image?(
-                <NetworkImage source={{uri:item.image}} style={styles.image} 
-                indicator={()=> <AnimatedCircularProgress
-                size={100}
-                width={5}
-                fill={100}
-                tintColor="#00a7ff"
-                backgroundColor="#3e4544"
-                    /> }
-                indicatorProps={{
-                    size:70,
+              {item.image ? (
+                <NetworkImage
+                  source={{ uri: item.image }}
+                  style={styles.image}
+                  indicator={() => (
+                    <AnimatedCircularProgress
+                      size={100}
+                      width={5}
+                      fill={100}
+                      tintColor="#00a7ff"
+                      backgroundColor="#3e4544"
+                    />
+                  )}
+                  indicatorProps={{
+                    size: 70,
                     borderWidth: 0,
-                    color: "#00a7ff"
-                }}
-                imageStyle={{borderRadius: 35}}
+                    color: "#00a7ff",
+                  }}
+                  imageStyle={{ borderRadius: 35 }}
                 />
-                 ) :(
+              ) : (
                 <View style={styles.placeholderContainer}>
-              <Image
-                source={require("../assets/cam-icon-3.png")}
-                style={styles.placeholder}
-              ></Image>
-              </View>
-             
-                 )}
+                  <Image
+                    source={require("../assets/cam-icon-3.png")}
+                    style={styles.placeholder}
+                  ></Image>
+                </View>
+              )}
             </TouchableOpacity>
           </View>
         </View>
@@ -107,7 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 100,
     height: 100,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   placeholderContainer: {
     height: 100,
@@ -116,7 +121,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: 'white',
+    borderColor: "white",
     borderBottomLeftRadius: 20,
     borderTopRightRadius: 20,
   },
@@ -138,7 +143,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#17252D",
     borderRadius: 10,
     borderWidth: 4,
-    borderColor: 'white',
+    borderColor: "white",
     borderBottomRightRadius: 50,
     borderTopLeftRadius: 50,
     margin: 5,

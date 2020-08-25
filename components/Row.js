@@ -198,8 +198,7 @@ const JobRow = ({ item, index }) => {
       >
         <TouchableOpacity
           onPress={() => handleDeleteJob(item, index)}
-          style={{ paddingRight: 20,  right: "35%",
-          bottom: 90, }}
+          style={{ paddingRight: 20, right: "35%", bottom: 90 }}
         >
           <View style={styles.delButton}>
             <Ionicons name="ios-trash" size={30} color="#EE1B24" />
@@ -236,10 +235,17 @@ const JobRow = ({ item, index }) => {
         {item.completed ? (
           <Ionicons name="ios-checkmark" color="green" size={50} />
         ) : (
-          <TouchableOpacity onPress={() => markAsDone(item, index)} style={{width: 350, alignItems: 'center', justifyContent: 'center'}}>
+          <TouchableOpacity
+            onPress={() => markAsDone(item, index)}
+            style={{
+              width: 350,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <View style={styles.postBtn}>
               <View style={styles.postTxtContainer}>
-              <Text style={styles.postText}>Post Job</Text>
+                <Text style={styles.postText}>Post Job</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -296,18 +302,17 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 40,
-   
+
     borderColor: "#EE1B24",
   },
-  postText: { 
+  postText: {
     fontSize: 30,
-    color: "#00a7ff"
-    
+    color: "#00a7ff",
   },
   // postTxtContainer: {
   //   width: 330,
   //   height: 50,
-   
+
   //   borderRadius: 20,
   //   borderBottomRightRadius: 60,
   //   borderBottomLeftRadius: 60,
