@@ -66,41 +66,41 @@ export default function LoginScreenHooks() {
     }
   };
 
-  const onSignUp = async () => {
-    if (email && password) {
-      // this.setState({isLoading: true})
-      setIsLoading(true);
-      try {
-        const response = await firebase
-          .auth()
-          .createUserWithEmailAndPassword(email, password);
-        if (response) {
-          // this.setState({isLoading: false})
-          setIsLoading(false);
+  // const onSignUp = async () => {
+  //   if (email && password) {
+  //     // this.setState({isLoading: true})
+  //     setIsLoading(true);
+  //     try {
+  //       const response = await firebase
+  //         .auth()
+  //         .createUserWithEmailAndPassword(email, password);
+  //       if (response) {
+  //         // this.setState({isLoading: false})
+  //         setIsLoading(false);
 
-          //sign in user in db
-          const user = await firebase
-            .database()
-            .ref("users/")
-            .child(response.user.uid)
-            .set({ email: response.user.email, uid: response.user.uid });
+  //         //sign in user in db
+  //         const user = await firebase
+  //           .database()
+  //           .ref("users/")
+  //           .child(response.user.uid)
+  //           .set({ email: response.user.email, uid: response.user.uid });
 
-          alert("Thanks for signing up!");
+  //         alert("Thanks for signing up!");
 
-          dispatch({ type: "SIGN_IN", payload: response.user });
-          //navigate
-        }
-      } catch (error) {
-        // this.setState({isLoading: false})
-        setIsLoading(false);
-        if (error.code == "auth/email-already-in-use") {
-          alert("User already Exists. Try Logging In");
-        }
-      }
-    } else {
-      alert("Please enter email and password");
-    }
-  };
+  //         dispatch({ type: "SIGN_IN", payload: response.user });
+  //         //navigate
+  //       }
+  //     } catch (error) {
+  //       // this.setState({isLoading: false})
+  //       setIsLoading(false);
+  //       if (error.code == "auth/email-already-in-use") {
+  //         alert("User already Exists. Try Logging In");
+  //       }
+  //     }
+  //   } else {
+  //     alert("Please enter email and password");
+  //   }
+  // };
 
   return (
     <ImageBackground

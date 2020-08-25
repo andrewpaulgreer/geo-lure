@@ -5,6 +5,8 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+
+
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -17,10 +19,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "this app uses the camera to posit images of job sites",
+        "NSLocationWhenInUseUsageDescription": "this app uses locational data to track the location of the job sites where users are posting"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     }
   }
 }
+
+// "adaptiveIcon": {
+//   "backgroundImage": "./assets/icon.png",
+//   "backgroundColor": "#17252D"
+// }
