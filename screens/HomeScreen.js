@@ -195,7 +195,7 @@ export default function HomeScreenHooks() {
           style={{
             flex: 1,
             bottom: 0,
-            top: 200,
+            top: "15%",
             left: 50,
             width: 350,
             height: 350,
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
   },
   jobInput: {
     flex: 1,
-    backgroundColor: "transparent",
+    backgroundColor: "#17252D",
     paddingLeft: 20,
     borderColor: "#d3d3d3",
     borderWidth: 2,
@@ -333,6 +333,7 @@ const styles = StyleSheet.create({
     color: "#d3d3d3",
     margin: 3,
     height: 50,
+    zIndex: 2000
   },
   TriangleShapeView: {
     //To make Triangle Shape

@@ -149,7 +149,7 @@ const JobRow = ({ item, index }) => {
   };
 
   const addImage = (selectedJob) => {
-    const options = ["select from photos", "open camerea", "cancel"];
+    const options = ["select from photos", "open camera", "cancel"];
     const cancelButtonIndex = 2;
 
     showActionSheetWithOptions(

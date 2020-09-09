@@ -150,13 +150,7 @@ export default function LoginScreenHooks() {
             <Text style={styles.login}>Login</Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.disclaimerContainer}>
-          <Text style={styles.disclaimer}>
-            * Disclaimer: This app is only accessible for subscribers to
-            easyfish local. If you are interested in a trial, please contact
-            easyfish local!{" "}
-          </Text>
-        </View>
+
       </View>
     </ImageBackground>
   );
