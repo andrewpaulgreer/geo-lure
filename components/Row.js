@@ -309,19 +309,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#00a7ff",
   },
-  // postTxtContainer: {
-  //   width: 330,
-  //   height: 50,
-
-  //   borderRadius: 20,
-  //   borderBottomRightRadius: 60,
-  //   borderBottomLeftRadius: 60,
-  //   borderColor:"white",
-  //   backgroundColor: "#17252D",
-  //   borderWidth: 3,
-  //   alignItems: "center",
-  //   justifyContent: "center"
-  // }
+  
 });
 
 export default JobRow;
