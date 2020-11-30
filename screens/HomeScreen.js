@@ -65,7 +65,7 @@ export default function HomeScreenHooks() {
   const { isLoadingJobs, jobs } = useSelector((state) => state.jobs);
 
   const handleAppStateChange = (nextAppState) => {
-    if (appState.match(/inactive|background/) && nextAppState === "active") {
+    if (appState.match(/inactive|foreground/) && nextAppState === "active") {
       console.log("App has come to the foreground!");
       _getLocationAsync();
     }
