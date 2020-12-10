@@ -42,6 +42,7 @@ export default function HomeScreenHooks() {
   const [openSettings, setOpenSettings] = useState(false);
   const textInputRef = useRef();
 
+  //check if user is signed in and fetch user information
   const user = useSelector((state) => state.auth.currentUser);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -64,6 +65,7 @@ export default function HomeScreenHooks() {
 
   const { isLoadingJobs, jobs } = useSelector((state) => state.jobs);
 
+  //location setup
   const handleAppStateChange = (nextAppState) => {
     if (appState.match(/inactive|foreground/) && nextAppState === "active") {
       console.log("App has come to the foreground!");
@@ -81,6 +83,7 @@ export default function HomeScreenHooks() {
     };
   }, []);
 
+  //grabbing location
   const _getLocationAsync = async () => {
     try {
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -116,10 +119,12 @@ export default function HomeScreenHooks() {
   //     // this.setState({openSetting: false})
   //   }
 
+  // set location data when add is pressed
   const setLocation = async () => {
     await firebase.database().ref("jobs").child(user.uid).update(location);
   };
 
+  // handle adding new job
   const handleAddJob = async (job) => {
     setTextInputData("");
     textInputRef.current.setNativeProps({ text: "" });

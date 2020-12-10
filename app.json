@@ -18,7 +18,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.easyfish.easyfishlocal",
-      "buildNumber": "1.0.0",
+      "buildNumber": "2.0.0",
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "this app uses the camera to posit images of job sites",
@@ -27,7 +27,8 @@
     },
     "android": {
       "package": "com.easyfish.esayfishlocalandroid",
-      "versionCode": 1,
+      "versionCode": 3,
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "CAMERA"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#17252D"
